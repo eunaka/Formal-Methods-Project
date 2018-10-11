@@ -1,6 +1,5 @@
 Bug Tracking
 ============
-
 >Identificar e corrigir bugs é uma tarefa essencial no desenvolvimento de bons programas. Considere que uma empresa possui um repositório de códigos-fonte e que esta deseja implementar uma política mais eficiente de eliminação de bugs de software. O repositório da empresa está organizado de acordo com os clientes da empresa. Cada cliente pode ter um ou mais projetos em andamento. Cada projeto é organizado em uma pasta, a qual contém subpastas com as diferentes versões do código do referido projeto. A empresa irá atribuir um time de caçadores de bugs para vasculhar no repositório os projetos em andamento que possuem bugs. O time irá atuar da seguinte forma: a cada dia irão selecionar um projeto de um cliente diferente para trabalharem; sempre irão atuar na versão mais recente do projeto; e não podem trabalhar dois dias consecutivos para identificar bugs de um mesmo cliente. A cada bug identificado, há um relatório descrevendo o bug, a gravidade (1 a 3, sendo 3 muito grave). Todos os bugs devem ser corrigidos pela equipe de desenvolvimento em uma semana. Somente após todos os bugs corrigidos é que o projeto volta a estar apto a uma nova revisão pela equipe caçadora de bugs.
 
 ## Requisitos
