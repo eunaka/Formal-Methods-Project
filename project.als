@@ -28,10 +28,19 @@ fact geral {
   all commit: Commit | one p: Projeto | commit = p.ultimoCommit
   // Um BugReport acontece em um DiaTrabalho
   all bug: BugReport | one dia: DiaTrabalho | bug in dia.reports
+  // Em um dia, todo bug deve pertencer a um único projeto
+  all bug: BugReport
+    | one dia: DiaTrabalho
+    | bug in dia.reports
+      and bug.commit = dia.projeto.ultimoCommit
   // Dias têm datas diferentes
   all disj dia1, dia2: DiaTrabalho | dia1.data != dia2.data
   // Dias têm chekcs de clientes diferentes
   all disj dia1, dia2: DiaTrabalho | no c: Cliente | dia1.projeto in c.projetos and dia2.projeto in c.projetos
+}
+
+fun cehckBugResolvido (bug: BugReport): Bool {
+  bug.resolvido
 }
 
 /*
@@ -39,10 +48,6 @@ fun projetoByCommit (commit: Commit) : Projeto {
   let p = one Projeto | commit.~(p.ultimoCommit)
 }
 */
-
-fun cehckBugResolvido (bug: BugReport): Bool {
-  bug.resolvido
-}
 
 /*
 fun funcao3 () {
@@ -55,13 +60,17 @@ pred addBug (dia: DiaTrabalho, bug: BugReport) {
   dia.reports = dia.reports + bug
 }
 
+pred addProjeto (dia: DiaTrabalho, p: Projeto) {
+  dia.projeto = p
+}
+
+pred criaDia (dia: DiaTrabalho, p: Projeto, bug: BugReport) {
+  addProjeto[dia, p] and addBug[dia, bug]
+}
+
 pred resolveBug (bug: BugReport) {
   bug.resolvido = True
 }
-/*
-pred pred3
-/*
-pred pred4
 /*
 pred pred5
 */
@@ -69,21 +78,20 @@ pred pred5
 assert negativo {
   all dia: DiaTrabalho | #dia.data > 0
 }
-// check negativo
-
+check negativo
 
 assert diasConsecutivos {
   all c: Cliente
     | no disj dia1, dia2: DiaTrabalho
     | dia1.projeto in c.projetos and dia2.projeto in c.projetos
 }
-// check diasConsecutivos
+check diasConsecutivos
 
-
-assert projetoHaptoComBug {
-  all p: Projeto | 
+assert bugDoProjeto {
+  all p: Projeto, bug: BugReport, dia: DiaTrabalho
+  | criaDia[dia, p, bug] implies p.ultimoCommit = bug.commit
 }
-check projetoHaptoComBug
+check bugDoProjeto
 
 
 // pred show() {}
